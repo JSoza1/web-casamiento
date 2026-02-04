@@ -1,33 +1,72 @@
 # 💍 Web Boda - Servicio de Subida de Imágenes
 
-Aplicación web desarrollada con React y Vite que permite la subida de imágenes directamente a una carpeta de Google Drive sin requerir autenticación por parte del usuario final.
+> **Aplicación web segura y anónima para recopilar los mejores momentos de la boda directamente en Google Drive.**
 
 ---
 
-## 🏗️ Arquitectura del Proyecto
+## 📖 Descripción
+
+Este proyecto es una **Aplicación Web** diseñada para centralizar la recolección de fotografías del evento. Evita la pérdida de calidad asociada a plataformas de mensajería instantánea, asegurando que las imágenes se almacenen directamente en la nube en su resolución original.
 
 El sistema utiliza una arquitectura **Serverless** dividida en dos componentes:
+*   **Frontend:** Interfaz moderna y responsiva para los invitados.
+*   **Backend:** Script en Google Apps Script que gestiona la seguridad y el almacenamiento en Drive.
 
-1.  **Frontend (Cliente)**: Aplicación React alojada en cualquier servicio estático (ej. Vercel). Se encarga de la interfaz de usuario, compresión de imágenes y conversión a Base64.
-2.  **Backend (Google Apps Script)**: Script alojado en los servidores de Google que actúa como middleware. Recibe las peticiones HTTP desde el frontend y utiliza la API de Google Drive para guardar los archivos.
+### Características Principales y Técnicas:
+*   ✅ **Subida Directa:** Integración transparente con Google Drive API.
+*   ✅ **Privacidad Total:** No requiere registro ni inicio de sesión para los invitados (Funciona como "buzón").
+*   ✅ **Optimización:** Compresión inteligente de imágenes en el cliente antes de la subida.
+*   ✅ **Alta Performance:** Construido con Vite para una carga instantánea.
+*   ✅ **Feedback Visual:** Indicadores de progreso y notificaciones de estado (toast).
+*   ✅ **Arquitectura Serverless:** Sin servidores que mantener, alojado en Google Cloud.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+*   React
+*   Vite
+*   JavaScript (ES6+)
+*   Google Apps Script
+*   Google Drive API
+*   CSS3
+*   HTML5
+
+---
+
+## 📂 Estructura del Proyecto
+
+```bash
+web-boda/
+├── 📄 SERVER_SCRIPT.js  # Script de Backend (Google Apps Script)
+├── 📂 public/           # Archivos estáticos
+├── 📂 src/
+│   ├── 📂 assets/       # Imágenes y recursos
+│   ├── 📄 App.jsx       # Componente principal y lógica de subida
+│   ├── 📄 App.css       # Estilos del componente
+│   ├── 📄 index.css     # Estilos globales y variables
+│   └── 📄 main.jsx      # Punto de entrada de React
+├── 📄 .env.example      # Plantilla de variables de entorno
+└── 📄 vite.config.js    # Configuración del empaquetador
+```
 
 ---
 
 ## ⚙️ Configuración e Instalación
 
-### 1. Preparar Google Drive (Paso Cero)
+### 1. Configuración de Google Drive (Requisito Previo)
 
-Antes de tocar código, necesitas el lugar donde se guardarán las fotos.
+Es necesario configurar el repositorio de almacenamiento en Google Drive antes de iniciar la implementación.
 
-1.  Ve a tu **Google Drive**.
-2.  Crea una nueva carpeta (ej: "Fotos Boda").
-3.  (Opcional pero recomendado) Haz clic derecho en la carpeta -> **Compartir** -> Cambia a "Cualquier persona con el enlace puede ver" (para que los novios puedan ver las fotos fácilmente).
-4.  Copia el **ID de la carpeta** desde la URL del navegador (lo que está después de `folders/`). *Guardalo, lo usarás en el siguiente paso.*
+1.  Acceda a **Google Drive**.
+2.  Cree una nueva carpeta para el proyecto (ej: "Fotos Boda").
+3.  (Opcional pero recomendado) Configure los permisos de la carpeta: Clic derecho -> **Compartir** -> Seleccione "Cualquier persona con el enlace puede ver" (para facilitar el acceso de visualización a los administradores).
+4.  Identifique y copie el **ID de la carpeta** desde la URL del navegador (la cadena de caracteres ubicada después de `folders/`). *Conserve este identificador para la configuración del backend.*
 
 ### 2. Configuración del Backend (Google Apps Script)
 
-Para que la aplicación funcione, es necesario desplegar el script de backend que actuará como intermediario con Google Drive.
-**Nota:** Este script corre en los servidores de Google, por lo que no puede leer el archivo `.env` local. Debes configurar el ID manualmente en el código.
+Para asegurar el funcionamiento de la aplicación, es necesario desplegar el script de backend que actuará como middleware con Google Drive.
+**Nota:** Este script se ejecuta en los servidores de Google; por lo tanto, no tiene acceso a las variables de entorno locales (`.env`). El ID de la carpeta debe configurarse manualmente en el código fuente.
 
 1.  Acceder a [Google Apps Script](https://script.google.com/) y crear un **"Nuevo proyecto"**.
 2.  Copiar el contenido del archivo `SERVER_SCRIPT.js` de este repositorio.
@@ -39,8 +78,8 @@ Para que la aplicación funcione, es necesario desplegar el script de backend qu
     - **Seleccionar tipo**: Icono de engranaje > **Aplicación web**.
     - **Configuración requerida**:
         - *Descripción*: "Servicio de Subida".
-        - *Ejecutar como*: **"Yo"** (El propietario de la carpeta/cuenta).
-        - *Quién tiene acceso*: **"Cualquiera" (Anyone)**. *Esto es crítico para permitir subidas anónimas.*
+        - *Ejecutar como*: **"Yo"** (Propietario de la cuenta).
+        - *Quién tiene acceso*: **"Cualquiera" (Anyone)**. *Este paso es fundamental para permitir cargas anónimas sin autenticación.*
     - Clic en **"Implementar"**.
 5.  Copiar la **URL de la aplicación web** generada.
 
@@ -60,7 +99,11 @@ Para que la aplicación funcione, es necesario desplegar el script de backend qu
     ```bash
     npm install
     ```
+5.  Iniciar desarrollo:
+    ```bash
+    npm run dev
+    ```
 
 ---
 
-Hecho por **Jsoza**
+Desarrollado por **Jsoza**
